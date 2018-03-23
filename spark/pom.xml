@@ -1,5 +1,5 @@
 ﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.jingege</groupId>
@@ -58,125 +58,11 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>net.alchim31.maven</groupId>
-                    <artifactId>scala-maven-plugin</artifactId>
-                    <version>3.2.2</version>
-                    <configuration>
-                        <recompileMode>incremental</recompileMode>
-                        <useZincServer>false</useZincServer>
-                        <scalaVersion>${scala.version}</scalaVersion>
-                        <checkMultipleScalaVersions>true</checkMultipleScalaVersions>
-                        <javacGenerateDebugSymbols>true</javacGenerateDebugSymbols>
-                        <args>
-                            <arg>-deprecation</arg>
-                            <arg>-feature</arg>
-                            <arg>-target:jvm-1.8</arg>
-                        </args>
-                        <javacArgs>
-                            <javacArg>-source</javacArg>
-                            <javacArg>1.8</javacArg>
-                            <javacArg>-target</javacArg>
-                            <javacArg>1.8</javacArg>
-                            <javacArg>-parameters</javacArg>
-                            <javacArg>-Xlint:unchecked</javacArg>
-                            <javacArg>-Xlint:deprecation</javacArg>
-                        </javacArgs>
-                        <jvmArgs>
-                            <jvmArg>-Xms64m</jvmArg>
-                            <jvmArg>-XX:PermSize=128m</jvmArg>
-                            <jvmArg>-XX:MaxPermSize=256m</jvmArg>
-                            <jvmArg>-Xmx1024m</jvmArg>
-                        </jvmArgs>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>scala-compile-first</id>
-                            <phase>process-resources</phase>
-                            <goals>
-                                <goal>add-source</goal>
-                                <goal>compile</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>scala-test-compile</id>
-                            <phase>process-test-resources</phase>
-                            <goals>
-                                <goal>testCompile</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.0.2</version>
-                    <configuration>
-                        <includes>
-                            <include>**/*.class</include>
-                            <include>META-INF/**</include>
-                        </includes>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.6.1</version>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                        <encoding>UTF-8</encoding>
-                        <debug>true</debug>
-                        <compilerArgument>-parameters</compilerArgument>
-                        <failOnError>true</failOnError>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <phase>compile</phase>
-                            <goals>
-                                <goal>compile</goal>
-                                <goal>testCompile</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.0.2</version>
-                    <executions>
-                        <execution>
-                            <id>copy-deps</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>copy-dependencies</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>target/dependencies</outputDirectory>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.0.2</version>
-                    <configuration>
-                        <escapeString>\</escapeString>
-                        <nonFilteredFileExtensions>
-                            <nonFilteredFileExtension>xlsx</nonFilteredFileExtension>
-                            <nonFilteredFileExtension>xls</nonFilteredFileExtension>
-                            <!--<nonFilteredFileExtension>xml</nonFilteredFileExtension> -->
-                        </nonFilteredFileExtensions>
-                        <delimiters>
-                            <delimiter>@</delimiter>
-                        </delimiters>
-                        <useDefaultDelimiters>false</useDefaultDelimiters>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 </project>
