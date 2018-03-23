@@ -1,16 +1,39 @@
-﻿﻿package me.jingege.bigdata.spark.userlog
+package me.jingege.bigdata.spark.userlog
 
-import org.apache.spark.streaming.StreamingContext
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.SparkConf
+import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
+import org.apache.spark.streaming.kafka010.KafkaUtils
+import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
+import org.apache.spark.streaming.{Seconds, StreamingContext}
 
+/**
+  *
+  * @author bill 2018-03-22 23:51
+  */
 object UserLogSpark {
 
-  def main(args:Array[String]):Unit = {
-    val topic = "userlog"
+  def main(args: Array[String]): Unit = {
 
-    val sparkConf = new SparkConf().setAppName("userlog").setMaster("local[1]")
-    val sc = new SparkContext(sparkConf)
-//    val ssc = new StreamingContext(sparkConf,10)
+    val (master) = (args(0))
+
+    val topics = Set("userlog")
+
+    val conf = new SparkConf().setAppName("UserLogTagFound").setMaster(master)
+    val ssc = new StreamingContext(conf, Seconds(1))
+
+    val brokers = "quickstart.cloudera:9092"
+
+    val kafkaParam = Map[String, String](
+      "group.id" -> "spark-consumer",
+      "metadata.broker.list" -> brokers,
+      "serializer.class" -> "kafka.serializer.StringEncoder"
+    )
+
+    var stream = KafkaUtils.createDirectStream[String, String](ssc, PreferConsistent, Subscribe[String, String](topics, kafkaParam))
+    stream.map(s => (s.key(), s.value())).print()
+
+    ssc.start()
+    ssc.awaitTermination()
   }
 
 }
