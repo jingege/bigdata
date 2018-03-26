@@ -24,6 +24,7 @@ object UserLogSpark {
     val brokers = "quickstart.cloudera:9092"
 
     val kafkaParam = Map[String, String](
+      "bootstrap.servers" -> "quickstart.cloudera:9092",
       "group.id" -> "spark-consumer",
       "metadata.broker.list" -> brokers,
       "serializer.class" -> "kafka.serializer.StringEncoder"
