@@ -1,5 +1,6 @@
 package me.jingege.bigdata.spark.userlog
 
+import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 import org.apache.spark.streaming.kafka010.KafkaUtils
@@ -24,10 +25,12 @@ object UserLogSpark {
     val brokers = "quickstart.cloudera:9092"
 
     val kafkaParam = Map[String, String](
-      "bootstrap.servers" -> "quickstart.cloudera:9092",
+      "bootstrap.servers" -> brokers,
       "group.id" -> "spark-consumer",
-      "metadata.broker.list" -> brokers,
-      "serializer.class" -> "kafka.serializer.StringEncoder"
+      "key.deserializer" -> classOf[StringDeserializer].getCanonicalName,
+      "value.deserializer" -> classOf[StringDeserializer].getCanonicalName,
+      "auto.offset.reset" -> "latest",
+      "enable.auto.commit" -> "false"
     )
 
     var stream = KafkaUtils.createDirectStream[String, String](ssc, PreferConsistent, Subscribe[String, String](topics, kafkaParam))
