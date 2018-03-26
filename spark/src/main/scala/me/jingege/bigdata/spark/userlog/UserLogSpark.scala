@@ -1,6 +1,5 @@
 package me.jingege.bigdata.spark.userlog
 
-import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 import org.apache.spark.streaming.kafka010.KafkaUtils
@@ -27,8 +26,8 @@ object UserLogSpark {
     val kafkaParam = Map[String, String](
       "bootstrap.servers" -> brokers,
       "group.id" -> "spark-consumer",
-      "key.deserializer" -> classOf[StringDeserializer].getCanonicalName,
-      "value.deserializer" -> classOf[StringDeserializer].getCanonicalName,
+      "key.deserializer" -> "org.apache.kafka.common.serialization.StringDeserializer",
+      "value.deserializer" -> "org.apache.kafka.common.serialization.StringDeserializer",
       "auto.offset.reset" -> "latest",
       "enable.auto.commit" -> "false"
     )
