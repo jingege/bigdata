@@ -21,13 +21,15 @@ object UserLogSpark {
     val conf = new SparkConf().setAppName("UserLogTagFound").setMaster(master)
     val ssc = new StreamingContext(conf, Seconds(1))
 
-    val brokers = "quickstart.cloudera:9092"
+    val brokers = "localhost:9092"
 
     val kafkaParam = Map[String, String](
       "bootstrap.servers" -> brokers,
       "group.id" -> "spark-consumer",
       "key.deserializer" -> "org.apache.kafka.common.serialization.StringDeserializer",
       "value.deserializer" -> "org.apache.kafka.common.serialization.StringDeserializer",
+      "key.deserializer.class" -> "org.apache.kafka.common.serialization.StringDeserializer",
+      "value.deserializer.class" -> "org.apache.kafka.common.serialization.StringDeserializer",
       "auto.offset.reset" -> "latest",
       "enable.auto.commit" -> "false"
     )
