@@ -22,7 +22,7 @@ object UserLogSpark {
     val conf = new SparkConf().setAppName("UserLogTagFound").setMaster(master)
     val ssc = new StreamingContext(conf, Seconds(1))
 
-    val brokers = "localhost:9092"
+    val brokers = "quickstart.cloudera:9092"
 
     //    val kafkaParams = Map[String, String](
     //      "bootstrap.servers" -> brokers,
