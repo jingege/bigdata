@@ -1,5 +1,6 @@
 package me.jingege.bigdata.spark.userlog
 
+import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 import org.apache.spark.streaming.kafka010.KafkaUtils
@@ -23,18 +24,26 @@ object UserLogSpark {
 
     val brokers = "localhost:9092"
 
-    val kafkaParam = Map[String, String](
+    //    val kafkaParams = Map[String, String](
+    //      "bootstrap.servers" -> brokers,
+    //      "group.id" -> "spark-consumer",
+    //      "key.deserializer" -> "org.apache.kafka.common.serialization.StringDeserializer",
+    //      "value.deserializer" -> "org.apache.kafka.common.serialization.StringDeserializer",
+    //      "key.deserializer.class" -> "org.apache.kafka.common.serialization.StringDeserializer",
+    //      "value.deserializer.class" -> "org.apache.kafka.common.serialization.StringDeserializer",
+    //      "auto.offset.reset" -> "latest",
+    //      "enable.auto.commit" -> "false"
+    //    )
+
+    val kafkaParams = Map(
       "bootstrap.servers" -> brokers,
-      "group.id" -> "spark-consumer",
-      "key.deserializer" -> "org.apache.kafka.common.serialization.StringDeserializer",
-      "value.deserializer" -> "org.apache.kafka.common.serialization.StringDeserializer",
-      "key.deserializer.class" -> "org.apache.kafka.common.serialization.StringDeserializer",
-      "value.deserializer.class" -> "org.apache.kafka.common.serialization.StringDeserializer",
-      "auto.offset.reset" -> "latest",
-      "enable.auto.commit" -> "false"
+      "key.deserializer" -> classOf[StringDeserializer],
+      "value.deserializer" -> classOf[StringDeserializer],
+      "group.id" -> "spark-streaming",
+      "auto.offset.reset" -> "earliest"
     )
 
-    var stream = KafkaUtils.createDirectStream[String, String](ssc, PreferConsistent, Subscribe[String, String](topics, kafkaParam))
+    var stream = KafkaUtils.createDirectStream[String, String](ssc, PreferConsistent, Subscribe[String, String](topics, kafkaParams))
     stream.map(s => (s.key(), s.value())).print()
 
     ssc.start()
